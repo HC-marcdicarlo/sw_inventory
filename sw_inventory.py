@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#options can be found in ./options.py
+#options can be found in ./opts.py
 
 import xmlrpclib
 import httplib
@@ -27,10 +27,6 @@ parser.add_option('-l', '--list', dest="groups",
                   default=False, action="store_true",
                   help="System groups")
 
-parser.add_option('-j', dest="js",
-                  default=False, action="store_true",
-                  help="json")
-
 (options, args) = parser.parse_args()
 
 def mk_lst(sys_grp_details):
@@ -38,15 +34,6 @@ def mk_lst(sys_grp_details):
     for server in sys_grp_details:
         svr_list.append(server['name'])
     return svr_list
-
-
-if options.js:
-    #grpvar = {'grpvar': {'host':['hostone']}}
-    grpvar = {}
-    grp_var = 'grp1'
-    host_list = ['host1', 'host2'] 
-    grpvar[grp_var] = host_list
-    print json.dumps(grpvar)
 
 if options.oldlist:
     #get the list of systems
@@ -66,9 +53,7 @@ if options.groups:
         sys_grp_details = spacewalk.systemgroup.listSystemsMinimal(api_token, group['name'])
         sys_dict[group['name']] = mk_lst(sys_grp_details)
 
-
     print json.dumps(sys_dict)
-
 
 #logout of api
 spacewalk.auth.logout(api_token)
