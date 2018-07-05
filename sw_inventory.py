@@ -27,6 +27,10 @@ parser.add_option('-l', '--list', dest="groups",
                   default=False, action="store_true",
                   help="System groups")
 
+parser.add_option('-s', '--host', dest="host",
+                  default=False, action="store_true",
+                  help="host vars")
+
 (options, args) = parser.parse_args()
 
 def mk_lst(sys_grp_details):
@@ -34,6 +38,10 @@ def mk_lst(sys_grp_details):
     for server in sys_grp_details:
         svr_list.append(server['name'])
     return svr_list
+
+if options.host:
+    details = spacewalk.system.getDetails(api_token, 1000010769)
+    print details
 
 if options.oldlist:
     #get the list of systems
