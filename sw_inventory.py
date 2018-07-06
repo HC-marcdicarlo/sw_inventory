@@ -14,7 +14,7 @@ def mk_lst(sys_grp_details):
         svr_list.append(server['name'])
     return svr_list
 
-def sys_list(api_token):
+def sys_list(spacewalk, api_token):
     sys_dict = {}
     #find all system groups
     groups = spacewalk.systemgroup.listAllGroups(api_token)
@@ -62,7 +62,7 @@ def main():
             print system['name']
 
     if options.groups:
-        sys_list(api_token)
+        sys_list(spacewalk, api_token)
 
     #logout of api
     spacewalk.auth.logout(api_token)
